@@ -21,10 +21,17 @@ describe('AppComponent', () => {
     expect(compiled.querySelector('.logo')?.textContent).toContain('SeeFood');
   });
 
-  it('should show the dropzone before an image is selected', () => {
+  it('should explain it is inspired by Silicon Valley', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.dropzone')).toBeTruthy();
+    expect(compiled.querySelector('.tagline')?.textContent).toContain('Silicon Valley');
+  });
+
+  it('should host the food analyzer feature', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('app-food-analyzer')).toBeTruthy();
   });
 });

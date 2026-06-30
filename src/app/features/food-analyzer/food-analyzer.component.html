@@ -1,0 +1,102 @@
+@if (!previewUrl()) {
+  <div
+    class="dropzone"
+    [class.dragging]="dragging()"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    (drop)="onDrop($event)">
+    <div class="dropzone-inner">
+      <span class="camera">📷</span>
+      <p class="drop-title">Add a food photo</p>
+      <p class="drop-sub">Drag &amp; drop, or use a button below · JPG, PNG, WEBP</p>
+      <div class="dropzone-actions">
+        <label class="action-btn primary">
+          <input type="file" accept="image/*" capture="environment" hidden (change)="onFileInput($event)" />
+          📸 Take photo
+        </label>
+        <label class="action-btn">
+          <input type="file" accept="image/*" hidden (change)="onFileInput($event)" />
+          🖼️ Choose photo
+        </label>
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="workspace">
+    <div class="preview-card">
+      <img [src]="previewUrl()!" alt="Your food" class="preview-img" />
+      <button class="ghost-btn" (click)="reset()">↺ Try another photo</button>
+    </div>
+
+    <div class="results">
+      @if (loading()) {
+        <div class="status">
+          <div class="spinner"></div>
+          <p>Tasting the pixels…</p>
+        </div>
+      } @else if (error()) {
+        <div class="status error">
+          <span class="emoji">😕</span>
+          <p>{{ error() }}</p>
+          <button class="ghost-btn" (click)="analyze()">Retry</button>
+        </div>
+      } @else if (result()) {
+        @let r = result()!;
+        @if (!r.isFood) {
+          <div class="status not-food">
+            <span class="emoji">🚫🌭</span>
+            <h2>Not food</h2>
+            <p>{{ r.description }}</p>
+          </div>
+        } @else {
+          <article class="food-card">
+            <div class="food-head">
+              <h2>{{ r.name }}</h2>
+              <span class="confidence" [attr.data-level]="r.confidence">{{ r.confidence }} confidence</span>
+            </div>
+            <p class="desc">{{ r.description }}</p>
+
+            <div class="calorie-banner">
+              <span class="cal-value">{{ r.calories }}</span>
+              <span class="cal-label">per {{ r.servingSize }}</span>
+            </div>
+
+            <h3 class="section-title">Nutrition</h3>
+            <div class="nutrition-grid">
+              @for (row of nutritionRows(r); track row.label) {
+                <div class="nutrient">
+                  <span class="n-label">{{ row.label }}</span>
+                  <span class="n-value">{{ row.value }}</span>
+                </div>
+              }
+            </div>
+
+            @if (r.ingredients.length) {
+              <h3 class="section-title">Likely ingredients</h3>
+              <div class="chips">
+                @for (ing of r.ingredients; track ing) {
+                  <span class="chip">{{ ing }}</span>
+                }
+              </div>
+            }
+
+            @if (r.recipeQueries.length) {
+              <h3 class="section-title">Find a recipe</h3>
+              <div class="recipe-links">
+                @for (q of r.recipeQueries; track q) {
+                  <a class="recipe-link" [href]="recipeUrl(q)" target="_blank" rel="noopener">
+                    🔎 {{ q }}
+                  </a>
+                }
+              </div>
+            }
+
+            @if (r.healthNote) {
+              <p class="health-note">💡 {{ r.healthNote }}</p>
+            }
+          </article>
+        }
+      }
+    </div>
+  </div>
+}

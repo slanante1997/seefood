@@ -59,9 +59,10 @@ Open the URL Netlify prints (usually http://localhost:8888).
 | Path | What |
 | --- | --- |
 | `netlify/functions/analyze.mjs` | Secure Gemini proxy, structured-output schema |
-| `src/app/seefood.service.ts` | Frontend client for `/api/analyze` |
-| `src/app/seefood.model.ts` | Typed result shape |
-| `src/app/app.component.*` | Upload UI, preview, and results card |
+| `src/app/core/services/seefood.service.ts` | Frontend client for `/api/analyze` (+ image downscaling) |
+| `src/app/core/models/food-result.model.ts` | Typed result shape |
+| `src/app/features/food-analyzer/` | Upload UI, preview, and results card |
+| `src/app/app.component.*` | App shell (branding + hosts the feature) |
 | `netlify.toml` | Build, functions, dev, and SPA redirect config |
 
 ## Notes
