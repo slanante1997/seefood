@@ -41,19 +41,6 @@ Open the URL Netlify prints (usually http://localhost:8888).
 > Running plain `ng serve` works for the UI, but `/api/analyze` won't exist —
 > use `netlify dev` so the function is available.
 
-## Deploying to Netlify
-
-1. Push this repo to GitHub.
-2. In Netlify: **Add new site → Import from Git**, pick the repo.
-3. Build settings are read automatically from [`netlify.toml`](./netlify.toml):
-   - Build command: `npm run build`
-   - Publish directory: `dist/seefood/browser`
-   - Functions directory: `netlify/functions`
-4. **Site settings → Environment variables**, add:
-   - `GEMINI_API_KEY` = your key
-   - *(optional)* `GEMINI_MODEL` = `gemini-2.5-flash`
-5. Deploy. Done.
-
 ## Project layout
 
 | Path | What |
