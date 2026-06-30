@@ -1,0 +1,358 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.app {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ---- Hero ---- */
+.hero {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.logo {
+  font-size: clamp(2.6rem, 7vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin: 0;
+  color: var(--ink);
+}
+
+.logo span {
+  color: var(--accent);
+}
+
+.logo .emoji {
+  color: initial;
+}
+
+.tagline {
+  margin: 0.6rem auto 0;
+  max-width: 36ch;
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+}
+
+.stage {
+  flex: 1;
+}
+
+/* ---- Dropzone ---- */
+.dropzone {
+  display: block;
+  border: 2px dashed var(--border);
+  border-radius: 20px;
+  background: var(--card);
+  padding: 3.5rem 1.5rem;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, transform 0.1s;
+}
+
+.dropzone:hover {
+  border-color: var(--accent);
+}
+
+.dropzone.dragging {
+  border-color: var(--accent);
+  background: var(--accent-wash);
+  transform: scale(1.01);
+}
+
+.dropzone-inner {
+  text-align: center;
+  pointer-events: none;
+}
+
+.camera {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.drop-title {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.drop-sub {
+  margin: 0.35rem 0 0;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+/* ---- Workspace ---- */
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 720px) {
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+}
+
+.preview-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 0.75rem;
+  position: sticky;
+  top: 1rem;
+}
+
+.preview-img {
+  width: 100%;
+  border-radius: 12px;
+  display: block;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.ghost-btn {
+  margin-top: 0.75rem;
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--ink);
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.ghost-btn:hover {
+  background: var(--accent-wash);
+  border-color: var(--accent);
+}
+
+/* ---- Status (loading / error / not-food) ---- */
+.status {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  color: var(--ink-soft);
+}
+
+.status .emoji {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.status.error {
+  color: #b4232a;
+}
+
+.status.not-food h2 {
+  margin: 0.25rem 0;
+  color: var(--ink);
+}
+
+.spinner {
+  width: 38px;
+  height: 38px;
+  border: 4px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---- Food card ---- */
+.food-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1.5rem;
+}
+
+.food-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.food-head h2 {
+  margin: 0;
+  font-size: 1.6rem;
+  color: var(--ink);
+}
+
+.confidence {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: #eef0f2;
+  color: var(--ink-soft);
+}
+
+.confidence[data-level='high'] {
+  background: #e3f6e8;
+  color: #1c7c3b;
+}
+
+.confidence[data-level='medium'] {
+  background: #fff3da;
+  color: #9a6800;
+}
+
+.confidence[data-level='low'] {
+  background: #fde6e6;
+  color: #b4232a;
+}
+
+.desc {
+  margin: 0.6rem 0 1.25rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.calorie-banner {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  background: var(--accent-wash);
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+}
+
+.cal-value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--accent-ink);
+}
+
+.cal-label {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+.section-title {
+  margin: 1.5rem 0 0.75rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+}
+
+.nutrition-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+}
+
+@media (max-width: 420px) {
+  .nutrition-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.nutrient {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.7rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.n-label {
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+}
+
+.n-value {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.chip {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.85rem;
+  color: var(--ink);
+}
+
+.recipe-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.recipe-link {
+  display: block;
+  text-decoration: none;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.7rem 0.9rem;
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.recipe-link:hover {
+  background: var(--accent-wash);
+  border-color: var(--accent);
+}
+
+.health-note {
+  margin: 1.5rem 0 0;
+  padding: 0.9rem 1rem;
+  background: var(--accent-wash);
+  border-radius: 12px;
+  color: var(--accent-ink);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* ---- Footer ---- */
+.footer {
+  margin-top: 2.5rem;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+}
+
+.footer p {
+  margin: 0;
+}

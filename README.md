@@ -1,59 +1,71 @@
-# Seefood
+# SeeFood 🌭
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.27.
+> "It's like Shazam, but for food." — Jian-Yang, *Silicon Valley*
 
-## Development server
+Upload a photo of any dish and SeeFood tells you **what it is**, gives you
+**estimated nutrition facts**, lists **likely ingredients**, and links you to
+**recipes**. Built with Angular + a Netlify serverless function that proxies
+Google's **Gemini** vision model.
 
-To start a local development server, run:
+(And yes — it correctly identifies a hotdog. It also handles *not* hotdog.)
 
-```bash
-ng serve
+## How it works
+
+```
+Browser (Angular)  ──image──▶  Netlify Function  ──▶  Gemini API
+   upload UI                   /api/analyze            (vision + JSON)
+        ◀──── structured nutrition JSON ────────────────────┘
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+The Gemini API key lives **only** in the Netlify function (server-side), so it
+never ships to the browser. The function asks Gemini for a strict JSON schema,
+so the frontend always gets clean, typed data back.
 
-## Code scaffolding
+## Prerequisites
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Node 18+ and npm
+- A free Gemini API key → https://aistudio.google.com/apikey
 
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+## Local development
 
 ```bash
-ng build
+npm install
+npm install -g netlify-cli      # one-time, for running functions locally
+
+cp .env.example .env            # then paste your GEMINI_API_KEY into .env
+netlify dev                     # serves the app + /api/analyze together
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Open the URL Netlify prints (usually http://localhost:8888).
 
-## Running unit tests
+> Running plain `ng serve` works for the UI, but `/api/analyze` won't exist —
+> use `netlify dev` so the function is available.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## Deploying to Netlify
 
-```bash
-ng test
-```
+1. Push this repo to GitHub.
+2. In Netlify: **Add new site → Import from Git**, pick the repo.
+3. Build settings are read automatically from [`netlify.toml`](./netlify.toml):
+   - Build command: `npm run build`
+   - Publish directory: `dist/seefood/browser`
+   - Functions directory: `netlify/functions`
+4. **Site settings → Environment variables**, add:
+   - `GEMINI_API_KEY` = your key
+   - *(optional)* `GEMINI_MODEL` = `gemini-2.5-flash`
+5. Deploy. Done.
 
-## Running end-to-end tests
+## Project layout
 
-For end-to-end (e2e) testing, run:
+| Path | What |
+| --- | --- |
+| `netlify/functions/analyze.mjs` | Secure Gemini proxy, structured-output schema |
+| `src/app/seefood.service.ts` | Frontend client for `/api/analyze` |
+| `src/app/seefood.model.ts` | Typed result shape |
+| `src/app/app.component.*` | Upload UI, preview, and results card |
+| `netlify.toml` | Build, functions, dev, and SPA redirect config |
 
-```bash
-ng e2e
-```
+## Notes
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Nutrition values are AI **estimates** — fun and useful, not medical advice.
+- Recipe links open a recipe search (not a single hard-coded URL), so they
+  don't break and always reflect real results.

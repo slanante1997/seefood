@@ -1,0 +1,18 @@
+[build]
+  command = "npm run build"
+  publish = "dist/seefood/browser"
+  functions = "netlify/functions"
+
+# Local dev: `netlify dev` runs the Angular dev server and the functions together,
+# proxying /api/* to the function defined in netlify/functions/analyze.mjs.
+[dev]
+  command = "npm start"
+  targetPort = 4200
+  framework = "#custom"
+
+# SPA fallback so Angular's router handles client-side routes.
+# Netlify matches function routes (/api/*) before this, so the API still works.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

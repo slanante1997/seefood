@@ -1,1 +1,31 @@
-/* You can add global styles to this file, and also import other style files */
+/* SeeFood — global theme */
+:root {
+  --bg: #f6f3ee;
+  --card: #ffffff;
+  --border: #e6e1d8;
+  --ink: #1f1b16;
+  --ink-soft: #6f675c;
+  --accent: #ff5436;
+  --accent-ink: #c5371f;
+  --accent-wash: #fff0ec;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background:
+    radial-gradient(1200px 500px at 50% -200px, #ffe7df 0%, rgba(255, 231, 223, 0) 70%),
+    var(--bg);
+  color: var(--ink);
+  font-family: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}

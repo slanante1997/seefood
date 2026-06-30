@@ -11,6 +11,13 @@
 npm-debug.log
 yarn-error.log
 
+# Local env / secrets (never commit your Gemini key!)
+.env
+.env.local
+
+# Netlify
+.netlify
+
 # IDEs and editors
 .idea/
 .project
